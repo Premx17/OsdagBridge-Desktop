@@ -1,0 +1,61 @@
+{% set name = "osdagbridge" %}
+{% set version = "1.0.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  path: ..
+
+build:
+  number: 1
+
+  script: |
+    {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
+
+  entry_points:
+    - osdagbridge=osdagbridge.desktop.__main__:main
+    - osdagbridge-cli=osdagbridge.cli.__main__:main
+
+
+
+requirements:
+  host:
+    - python >=3.11,<3.13
+    - pip
+    - setuptools
+    - wheel
+
+  run:
+    - python >=3.11,<3.13
+    - pip
+    - pyside6
+    - pythonocc-core
+    - navcube
+    - ifcopenshell
+    - fiona
+    - shapely
+    - scipy >=1.10.1
+    - pydantic
+    - xarray
+    - numpy
+    - matplotlib-base
+    - pyyaml
+    - openpyxl
+    - pandas
+    - plotly
+    - osdag
+
+
+test:
+  commands:
+    - python -c "import osdagbridge"
+    - python -c "import PySide6"
+
+about:
+  summary: "OsdagBridge - Steel bridge analysis and design"
+
+extra:
+  recipe-maintainers:
+    - garvit000
