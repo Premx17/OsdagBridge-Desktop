@@ -1,4 +1,5 @@
-channel_sources:
+﻿channel_sources:
+  - gsrathore
   - osdag
   - geompy
   - conda-forge

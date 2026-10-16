@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://schemas.conda.org/constructor/v0/construct.schema.json
+﻿# yaml-language-server: $schema=https://schemas.conda.org/constructor/v0/construct.schema.json
 
 name: OsdagBridge
 version: 1.0.0
@@ -21,7 +21,8 @@ channels:
 
 specs:
   - python >=3.11,<3.13
-  - osdagbridge
+  - osdagbridge-core >=1.0.0
+  - osdagbridge-desktop >=1.0.0
 
 # Files copied into the install prefix; used by the post-install scripts.
 extra_files:
