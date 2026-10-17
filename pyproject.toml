@@ -1,4 +1,4 @@
-﻿[build-system]
+[build-system]
 requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
@@ -44,11 +44,7 @@ classifiers = [
 dependencies = [
   "osdagbridge-core>=1.0.0",
   "PySide6>=6.5.0,<=6.9.3",
-  "pythonocc-core",
   "navcube",
-  "matplotlib>=3.5",
-  "mplcursors",
-  "Pillow",
   "pyyaml",
   "openpyxl",
 ]
@@ -62,7 +58,6 @@ test = [
 [tool.setuptools.package-data]
 "osdagbridge.desktop" = [
   "resources/**/*",
-  "data/**/*",
 ]
 
 # setuptools config

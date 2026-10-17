@@ -1,4 +1,4 @@
-﻿name: osb-desktop
+name: osb-desktop
 channels:
   - gsrathore
   - osdag
@@ -9,11 +9,7 @@ dependencies:
   - python>=3.11,<3.13
   - osdagbridge-core>=1.0.0
   - pyside6>=6.5.0,<=6.9.3
-  - pythonocc-core
   - navcube
-  - matplotlib-base>=3.5
-  - mplcursors
-  - pillow
   - pyyaml
   - openpyxl
   - pip
