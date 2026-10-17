@@ -12,8 +12,8 @@ build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
   entry_points:
-    - osdagbridge=osdagbridge.desktop.__main__:main
-    - osdagbridge-desktop=osdagbridge.desktop.__main__:main
+    - osdagbridge=osdagbridge_desktop.__main__:main
+    - osdagbridge-desktop=osdagbridge_desktop.__main__:main
 
 requirements:
   host:
@@ -32,8 +32,8 @@ requirements:
 
 test:
   commands:
-    - python -c "import osdagbridge.desktop"
-    - python -c "from osdagbridge.desktop.ui.template_page import CustomWindow"
+    - python -c "import osdagbridge_desktop"
+    - python -c "from osdagbridge_desktop.ui.template_page import CustomWindow"
 
 about:
   home: https://github.com/osdagbridge/OsdagBridge-Desktop

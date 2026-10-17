@@ -56,7 +56,7 @@ test = [
 
 # Package data
 [tool.setuptools.package-data]
-"osdagbridge.desktop" = [
+"osdagbridge_desktop" = [
   "resources/**/*",
 ]
 
@@ -69,5 +69,5 @@ where = ["src"]
 
 # Entry points
 [project.scripts]
-osdagbridge = "osdagbridge.desktop.__main__:main"
-osdagbridge-desktop = "osdagbridge.desktop.__main__:main"
+osdagbridge = "osdagbridge_desktop.__main__:main"
+osdagbridge-desktop = "osdagbridge_desktop.__main__:main"

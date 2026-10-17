@@ -1,4 +1,4 @@
-﻿# OsdagBridge-Desktop
+# OsdagBridge-Desktop
 
 Desktop Graphical User Interface (GUI), 3D CAD visualizer, and standalone installer package for [OsdagBridge](https://github.com/osdagbridge).
 
@@ -52,9 +52,7 @@ osdagbridge
 
 ## Architecture
 
-`osdagbridge-desktop` uses Python's PEP 420 namespace packaging alongside `osdagbridge-core`. Both packages share the `osdagbridge` namespace:
-- `osdagbridge.core` (from `osdagbridge-core`)
-- `osdagbridge.desktop` (from `osdagbridge-desktop`)
+osdagbridge-desktop provides the osdagbridge_desktop graphical user interface and 3D visualization layer, consuming osdagbridge-core for computational analysis, design engines, and databases.
 
 ## License
 
