@@ -20,8 +20,9 @@ from osdagbridge_desktop.ui.utils.cad_palette import (
 )
 
 
-from importlib.resources import files
-DB_PATH = Path(files("osdagbridge.core.data.ResourceFiles").joinpath("Intg_osdag.sqlite"))
+# Import database path directly from core rather than importlib.resources.files()
+# to avoid 'OrphanPath' exceptions if core's package layout changes.
+from osdagbridge_core import DATABASE_PATH as DB_PATH
 
 
 @dataclass

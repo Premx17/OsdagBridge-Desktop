@@ -7,13 +7,15 @@ from pathlib import Path
 import sqlite3
 import re
 
-from osdagbridge.core.utils.codes.irc6_2017 import IRC6_2017
-from osdagbridge.core.bridge_types.plate_girder.validator import BridgeInputValidator
+# Import RESOURCE_DIR directly from core to avoid OrphanPath errors from importlib
+from osdagbridge_core import RESOURCE_DIR
+from osdagbridge_core.utils.codes.irc6_2017 import IRC6_2017
+from osdagbridge_core.bridge_types.plate_girder.validator import BridgeInputValidator
 
 from osdagbridge_desktop.ui.utils.custom_titlebar import CustomTitleBar
 from osdagbridge_desktop.ui.dialogs.custom_messagebox import CustomMessageBox, MessageBoxType
 from osdagbridge_desktop.ui.docks.dock_utils import apply_field_style
-from osdagbridge.core.utils.common import (
+from osdagbridge_core.utils.common import (
     connectdb, KEY_GIRDER, KEY_CROSS_BRACING, KEY_END_DIAPHRAGM, KEY_DECK_CONCRETE_GRADE_BASIC,
     KEY_MATERIAL_GIRDER_FY, KEY_MATERIAL_GIRDER_FU, KEY_MATERIAL_GIRDER_E,
     KEY_MATERIAL_GIRDER_G, KEY_MATERIAL_GIRDER_POISSON, KEY_MATERIAL_GIRDER_THERMAL,
@@ -61,8 +63,7 @@ STEEL_WEIGHT_DENSITY = round(_dead_load_data['steel'] * 9.8, 2)           # 7.8 
 CONCRETE_WEIGHT_DENSITY = round(_dead_load_data['concrete_cement_reinforced'] * 9.8, 2)  # 2.5 t/m3 -> kN/m3
 
 def _locate_resource_file(file_name: str) -> Path:
-    from importlib.resources import files
-    return Path(files("osdagbridge.core.data.ResourceFiles").joinpath(file_name))
+    return RESOURCE_DIR / file_name
 
 
 def _execute_resource_query(query: str):

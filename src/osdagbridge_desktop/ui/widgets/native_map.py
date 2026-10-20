@@ -7,9 +7,8 @@ from PySide6.QtCore import Qt, Signal, QPoint, QPointF, QRect, QRectF, QUrl, QSt
 from PySide6.QtGui import QPainter, QPixmap, QImage, QBrush, QColor, QPen, QMouseEvent, QWheelEvent, QPainterPath
 from PySide6.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkDiskCache, QNetworkReply
 
-# Path to zone overlay images
-from importlib.resources import files
-_DATA_DIR = Path(files("osdagbridge.core.data.project_location").joinpath("india-osm.geojson")).parent
+# Path to zone overlay images (imported directly from core to avoid OrphanPath errors)
+from osdagbridge_core import PROJECT_LOCATION_DIR as _DATA_DIR
 SEISMIC_ZONE_IMAGE = _DATA_DIR / "seismic.png"
 WIND_ZONE_IMAGE = _DATA_DIR / "wind.png"
 

@@ -112,10 +112,18 @@ def create_sqlite():
     from importlib.resources import files
     import shutil
     
+    needs_update = False
+    backup_path = None
+    sqlitepath = None
     try:
-        # Get paths
-        sqlpath = files('osdagbridge.core.data.ResourceFiles').joinpath('Intg_osdag.sql')
-        sqlitepath = files('osdagbridge.core.data.ResourceFiles').joinpath('Intg_osdag.sqlite')
+        # Resolve paths directly from core exports instead of importlib.resources.files()
+        # to prevent 'OrphanPath' errors during startup.
+        from osdagbridge_core import RESOURCE_DIR, DATABASE_PATH, ensure_all_databases
+        if ensure_all_databases:
+            ensure_all_databases()
+
+        sqlpath = RESOURCE_DIR / 'Intg_osdag.sql'
+        sqlitepath = DATABASE_PATH
 
         if not sqlpath.exists():
             print(f"[ERROR] SQL file not found: {sqlpath}")
@@ -182,7 +190,7 @@ def create_sqlite():
         print(f"[ERROR] Database setup failed: {e}")
         
         # Cleanup on failure
-        if needs_update:
+        if needs_update and sqlitepath is not None:
             # Restore backup if available
             if backup_path and backup_path.exists():
                 if not sqlitepath.exists():
@@ -253,7 +261,7 @@ ensure_osdag_core_db()
 
 # Import template_page
 from osdagbridge_desktop.ui.template_page import CustomWindow
-from osdagbridge.core.bridge_types.plate_girder.plategirderbridge import PlateGirderBridge
+from osdagbridge_core.bridge_types.plate_girder.plategirderbridge import PlateGirderBridge
 
 def load_stylesheet():
     """Load the global QSS stylesheet from resources."""
