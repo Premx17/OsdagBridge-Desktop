@@ -1,0 +1,5 @@
+osdagbridge-core>=1.0.0
+PySide6>=6.5.0,<=6.9.3
+navcube
+pyyaml
+openpyxl

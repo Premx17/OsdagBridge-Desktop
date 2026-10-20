@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "osdagbridge-desktop"
+version = "1.0.0"
+description = "OsdagBridge Desktop - GUI and 3D CAD visualization for steel bridges"
+readme = "README.md"
+license = { file = "LICENSE" }
+
+authors = [
+  { name = "Osdag", email = "contact-osdag@fossee.in" }
+]
+
+maintainers = [
+  { name = "Garvit Singh Rathore" }
+]
+
+requires-python = ">=3.11,<3.13"
+
+keywords = [
+  "bridge",
+  "steel",
+  "structural engineering",
+  "gui",
+  "pyside6",
+  "cad",
+  "osdag"
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Education",
+  "Topic :: Scientific/Engineering",
+]
+
+# Runtime dependencies
+dependencies = [
+  "osdagbridge-core>=1.0.0",
+  "PySide6>=6.5.0,<=6.9.3",
+  "navcube",
+  "pyyaml",
+  "openpyxl",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=6.2.2",
+]
+
+# Package data
+[tool.setuptools.package-data]
+"osdagbridge_desktop" = [
+  "resources/**/*",
+]
+
+# setuptools config
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Entry points
+[project.scripts]
+osdagbridge = "osdagbridge_desktop.__main__:main"
+osdagbridge-desktop = "osdagbridge_desktop.__main__:main"

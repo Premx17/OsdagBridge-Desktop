@@ -1,0 +1,17 @@
+name: osb-desktop
+channels:
+  - gsrathore
+  - osdag
+  - geompy
+  - conda-forge
+
+dependencies:
+  - python>=3.11,<3.13
+  - osdagbridge-core>=1.0.0
+  - pyside6>=6.5.0,<=6.9.3
+  - navcube
+  - pyyaml
+  - openpyxl
+  - pip
+  - pip:
+    - -e .

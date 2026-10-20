@@ -1,0 +1,46 @@
+{% set name = "osdagbridge-desktop" %}
+{% set version = "1.0.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  path: ..
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
+  entry_points:
+    - osdagbridge=osdagbridge_desktop.__main__:main
+    - osdagbridge-desktop=osdagbridge_desktop.__main__:main
+
+requirements:
+  host:
+    - python >=3.11,<3.13
+    - pip
+    - setuptools >=61
+    - wheel
+
+  run:
+    - python >=3.11,<3.13
+    - osdagbridge-core >=1.0.0
+    - pyside6 >=6.5.0,<=6.9.3
+    - navcube
+    - pyyaml
+    - openpyxl
+
+test:
+  commands:
+    - python -c "import osdagbridge_desktop"
+    - python -c "from osdagbridge_desktop.ui.template_page import CustomWindow"
+
+about:
+  home: https://github.com/osdagbridge/OsdagBridge-Desktop
+  license: LGPL-3.0-or-later
+  license_file: LICENSE
+  summary: "Desktop graphical interface and 3D CAD viewer for OsdagBridge steel bridges"
+
+extra:
+  recipe-maintainers:
+    - garvit000
