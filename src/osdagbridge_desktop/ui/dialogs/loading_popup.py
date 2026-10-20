@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QApplication, QVBoxLayout, QHBoxLayout, QDialog, Q
 from PySide6.QtCore import Qt, QTimer, QPoint
 from PySide6.QtGui import QPainter, QColor, QPen, QFont, QIcon
 
-from osdagbridge.core.utils.logger import bridge_logger
+from osdagbridge_core.utils.logger import bridge_logger
 
 # Green spinner animation
 class _SpinnerLabel(QLabel):

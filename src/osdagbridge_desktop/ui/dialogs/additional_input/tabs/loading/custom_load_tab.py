@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
 
 from osdagbridge_desktop.ui.dialogs.tabs.common import apply_field_style
 from osdagbridge_desktop.ui.dialogs.custom_messagebox import CustomMessageBox, MessageBoxType
-from osdagbridge.core.bridge_types.plate_girder.ui_fields_additional_input import CUSTOM_LOAD_TAB_SCHEMA
+from osdagbridge_core.bridge_types.plate_girder.ui_fields_additional_input import CUSTOM_LOAD_TAB_SCHEMA
 
 
 class CustomLoadTab(QWidget):

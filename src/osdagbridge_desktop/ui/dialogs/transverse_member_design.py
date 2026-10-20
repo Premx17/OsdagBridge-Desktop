@@ -16,10 +16,10 @@ from osdagbridge_desktop.ui.dialogs.tabs.common import apply_field_style
 from osdagbridge_desktop.ui.docks.output_dock import NoScrollComboBox
 from osdagbridge_desktop.ui.widgets.placeholder_section_preview import PlaceholderSectionPreviewWidget
 from osdagbridge_desktop.ui.utils.styled_scroll_area import StyledScrollArea
-from osdagbridge.core.bridge_types.plate_girder.ui_fields_additional_input import (
+from osdagbridge_core.bridge_types.plate_girder.ui_fields_additional_input import (
     TRANSVERSE_MEMBER_DESIGN_SCHEMA,
 )
-from osdagbridge.core.utils.common import (
+from osdagbridge_core.utils.common import (
     KEY_TD_MEMBER_ID,
     KEY_TD_SELECT_GIRDER,
     KEY_TD_LOAD_COMBINATION,
@@ -937,7 +937,7 @@ class TransverseMemberDesign(QDialog):
             return
 
         try:
-            from osdagbridge.core.bridge_types.plate_girder.crossbracingforces import CrossBracingForces
+            from osdagbridge_core.bridge_types.plate_girder.crossbracingforces import CrossBracingForces
             cb = CrossBracingForces(bridge=backend)
             self._cb_forces_df = cb.compute_panel_forces()
             forces_dict = cb.get_design_forces_dict()
@@ -1294,7 +1294,7 @@ class TransverseMemberDesign(QDialog):
 
     def _get_governing_section(self, member_designs: dict, member_type: str,
                                end_diaphragm: bool = False) -> str:
-        from osdagbridge.core.bridge_types.plate_girder.results_data import _extract_osdag_summary
+        from osdagbridge_core.bridge_types.plate_girder.results_data import _extract_osdag_summary
         type_data = self._member_designs(member_designs, member_type, end_diaphragm)
         for force_type in ("tension", "compression"):
             res = _extract_osdag_summary(type_data.get(force_type) or {})
@@ -1467,7 +1467,7 @@ class TransverseMemberDesign(QDialog):
         return "#888888", "N/A"
 
     def _build_cb_design_check_html(self, pair_key: str, forces_dict: dict, designs_dict: dict) -> str:
-        from osdagbridge.core.bridge_types.plate_girder.results_data import _extract_osdag_summary
+        from osdagbridge_core.bridge_types.plate_girder.results_data import _extract_osdag_summary
 
         rows_html = []
         pairs     = forces_dict.get("pairs", {})
@@ -1574,7 +1574,7 @@ class TransverseMemberDesign(QDialog):
 
 
     def _build_ed_design_check_html(self, pair_key: str, forces_dict: dict, designs_dict: dict) -> str:
-        from osdagbridge.core.bridge_types.plate_girder.results_data import _extract_osdag_summary
+        from osdagbridge_core.bridge_types.plate_girder.results_data import _extract_osdag_summary
 
         rows_html    = []
         pairs        = forces_dict.get("pairs", {})

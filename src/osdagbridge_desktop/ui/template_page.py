@@ -16,11 +16,11 @@ from osdagbridge_desktop.ui.dialogs.custom_messagebox import CustomMessageBox, M
 from osdagbridge_desktop.ui.dialogs.loading_popup import LoadingDialogManager
 from osdagbridge_desktop.ui.cad_3d import CAD3DWindow
 
-from osdagbridge.core.bridge_types.plate_girder.ui_fields import FrontendData
-from osdagbridge.core.bridge_types.plate_girder.defaults import BASIC_INPUT_DICT, solve_extend_basic_input_dict
-from osdagbridge.core.utils.common import *
-from osdagbridge.core.utils.osi_validator import validate_osi_inputs
-from osdagbridge.core.utils.logger import bridge_logger
+from osdagbridge_core.bridge_types.plate_girder.ui_fields import FrontendData
+from osdagbridge_core.bridge_types.plate_girder.defaults import BASIC_INPUT_DICT, solve_extend_basic_input_dict
+from osdagbridge_core.utils.common import *
+from osdagbridge_core.utils.osi_validator import validate_osi_inputs
+from osdagbridge_core.utils.logger import bridge_logger
 from osdagbridge_desktop.ui.utils.custom_widgets import ToolBarWidget
 from osdagbridge_desktop.ui.utils.custom_cursors import pointing_hand_cursor
 
@@ -1722,7 +1722,7 @@ class CustomWindow(QWidget):
                     _additional = {**saved_data, **ai_vals}
 
                 cad = self.backend.get_ifc_export_parameters(_additional)
-                from osdagbridge.core.ifc_export_bridge.export_ifc_handler import PlateGirderIfcExportHandler
+                from osdagbridge_core.ifc_export_bridge.export_ifc_handler import PlateGirderIfcExportHandler
                 handler = PlateGirderIfcExportHandler(cad, fName)
                 handler.export()
 
@@ -2020,7 +2020,7 @@ class CustomWindow(QWidget):
 
     def trigger_ifc_export(self):
         from PySide6.QtWidgets import QFileDialog, QMessageBox
-        from osdagbridge.core.ifc_export_bridge.export_ifc_handler import PlateGirderIfcExportHandler
+        from osdagbridge_core.ifc_export_bridge.export_ifc_handler import PlateGirderIfcExportHandler
 
         file_path, _ = QFileDialog.getSaveFileName(
             self, "Export IFC Model", "PlateGirderBridge.ifc", "IFC Files (*.ifc)"

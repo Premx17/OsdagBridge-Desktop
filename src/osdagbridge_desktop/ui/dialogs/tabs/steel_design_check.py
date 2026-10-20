@@ -23,7 +23,7 @@ from PySide6.QtSvg import QSvgRenderer
 
 from osdagbridge_desktop.ui.utils.styled_scroll_area import StyledScrollArea
 from osdagbridge_desktop.ui.utils.custom_widgets import PercentBarWidget
-from osdagbridge.core.utils.common import (
+from osdagbridge_core.utils.common import (
     KEY_CHECK_FLEXURE, KEY_CHECK_SHEAR, KEY_CHECK_INTERACTION, KEY_CHECK_LTB,
     KEY_CHECK_SHEAR_LONG_TRANS, KEY_CHECK_FATIGUE, KEY_CHECK_STRESS, KEY_CHECK_DEFLECTION,
     DESIGN_CHECK_ORDER, DESIGN_CHECK_TITLES, DESIGN_CHECK_UNITS,

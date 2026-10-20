@@ -67,10 +67,10 @@ except ImportError:
     _V3D_RIGHT = _V3D_ISO = None  # capture falls back to the pythonocc wrappers
 
 # CAD generator
-from osdagbridge.core.bridge_types.plate_girder.cad_generator import (
+from osdagbridge_core.bridge_types.plate_girder.cad_generator import (
     PlateGirderCADGenerator
 )
-from osdagbridge.core.bridge_types.plate_girder import results_data
+from osdagbridge_core.bridge_types.plate_girder import results_data
 
 # Custom 3D Viewer
 from osdagbridge_desktop.ui.utils.custom_3dviewer import CustomViewer3d
@@ -84,7 +84,7 @@ from osdagbridge_desktop.ui.utils.cad_3d_hover import (
     build_support_hover_shapes,
 )
 
-from osdagbridge.core.bridge_types.plate_girder.dto import (
+from osdagbridge_core.bridge_types.plate_girder.dto import (
     BridgeParametersDTO,
     SectionDimsDTO,
     ISectionDimsDTO,

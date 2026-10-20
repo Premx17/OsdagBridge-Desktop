@@ -25,7 +25,7 @@ from PySide6.QtCore import QUrl, Qt, QPoint, QObject, Slot, Signal
 from PySide6.QtWebChannel import QWebChannel
 
 # --- IMPORT THE BACKEND LOGIC ---
-from osdagbridge.core.bridge_types.plate_girder.plots_widget import (
+from osdagbridge_core.bridge_types.plate_girder.plots_widget import (
     build_figure_sfd,
     build_figure_bmd,
     # build_figure_bmd_contour,  # commented out

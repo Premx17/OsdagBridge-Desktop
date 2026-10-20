@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
     QGroupBox, QGridLayout,
 )
 from PySide6.QtCore import Qt
-from osdagbridge.core.reports.report_generator import (
+from osdagbridge_core.reports.report_generator import (
     ReportMetadata, ReportOptions, ReportRequest
 )
 

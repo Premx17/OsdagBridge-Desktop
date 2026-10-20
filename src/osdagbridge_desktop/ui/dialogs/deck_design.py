@@ -23,7 +23,7 @@ from osdagbridge_desktop.ui.dialogs.tabs.steel_design_check import StatusBadge
 from osdagbridge_desktop.ui.utils.custom_widgets import PercentBarWidget
 
 # Import the schema
-from osdagbridge.core.bridge_types.plate_girder.ui_fields_additional_input import DECK_DESIGN_SUMMARY_SCHEMA
+from osdagbridge_core.bridge_types.plate_girder.ui_fields_additional_input import DECK_DESIGN_SUMMARY_SCHEMA
 
 
 class NoScrollTable(QTableWidget):

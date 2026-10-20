@@ -1,5 +1,5 @@
 import logging
-from osdagbridge.core.utils.common import *
+from osdagbridge_core.utils.common import *
 
 logger = logging.getLogger(__name__)
 

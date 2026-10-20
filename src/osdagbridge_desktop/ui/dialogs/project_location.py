@@ -7,19 +7,19 @@ from PySide6.QtCore import Qt, QTimer
 from osdagbridge_desktop.ui.utils.custom_titlebar import CustomTitleBar
 from osdagbridge_desktop.ui.utils.custom_widgets import CustomRadioButton
 from osdagbridge_desktop.ui.dialogs.custom_messagebox import CustomMessageBox, MessageBoxType
-from osdagbridge.core.bridge_types.plate_girder.ui_fields_project_location import (
+from osdagbridge_core.bridge_types.plate_girder.ui_fields_project_location import (
     get_state_list,
     get_station_list,
     get_default_location,
     get_weather,
 )
 from osdagbridge_desktop.ui.widgets.native_map import NativeMapWidget
-from osdagbridge.core.data.project_location.zone_lookup import get_zones_for_coordinates, get_temperature_for_coordinates
+from osdagbridge_core.data.project_location.zone_lookup import get_zones_for_coordinates, get_temperature_for_coordinates
 from osdagbridge_desktop.ui.utils.custom_cursors import pointing_hand_cursor
 # Database utilities for nearest‑station lookup (used for map feedback)
-from osdagbridge.core.data.project_location.database import Database
-from osdagbridge.core.bridge_types.plate_girder.ui_fields_project_location import DB_PATH
-from osdagbridge.core.bridge_types.plate_girder.validator import BridgeInputValidator
+from osdagbridge_core.data.project_location.database import Database
+from osdagbridge_core.bridge_types.plate_girder.ui_fields_project_location import DB_PATH
+from osdagbridge_core.bridge_types.plate_girder.validator import BridgeInputValidator
 
 # Session-level state to persist values across dialog open/close cycles
 # so that reopening the dialog retains looked-up location data.

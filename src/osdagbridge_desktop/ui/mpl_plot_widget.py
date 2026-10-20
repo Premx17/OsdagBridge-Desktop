@@ -17,7 +17,7 @@ from PySide6.QtCore import Qt, QEvent, QTimer
 from navcube import NavCubeOverlay, NavCubeStyle
 from osdagbridge_desktop.ui.utils.mpl_widget_navcube_sync import MatplotlibNavCubeSync
 
-from osdagbridge.core.bridge_types.plate_girder.plot_generator import (
+from osdagbridge_core.bridge_types.plate_girder.plot_generator import (
     build_figure_sfd,
     build_figure_bmd,
     build_figure_deflection,
@@ -740,7 +740,7 @@ class MplPlotWidget(QWidget):
         
     def _current_nodal_loads(self) -> dict:
         """Return all available nodal load directions for the active load case."""
-        from osdagbridge.core.bridge_types.plate_girder.plot_generator import get_all_nodal_loads
+        from osdagbridge_core.bridge_types.plate_girder.plot_generator import get_all_nodal_loads
         if self._load_mode == "off" or not self._result_data or not self._loadcases:
             return None
         active_lc = self._current_loadcase() or self._loadcases[0]

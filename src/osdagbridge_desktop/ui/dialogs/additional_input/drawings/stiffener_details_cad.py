@@ -14,7 +14,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPainter, QPen
 from PySide6.QtWidgets import QSizePolicy, QWidget
 
-from osdagbridge.core.utils.common import (
+from osdagbridge_core.utils.common import (
     MIN_BEARING_STIFFENER_SPACING_MM,
     KEY_MP_STIFFENER_SELECT_MEMBER_ID,
     KEY_MP_STIFFENER_NO_BEARING_STIFFENERS,
@@ -91,7 +91,7 @@ class StiffenerDetailsCad(QWidget):
         self.update()
 
     def update_stiffener(self, working_input_dict: dict, active_member_id: str = "") -> None:
-        from osdagbridge.core.utils.common import KEY_MP_GD_SEGMENT_TABLE, KEY_TS_NO_OF_GIRDERS
+        from osdagbridge_core.utils.common import KEY_MP_GD_SEGMENT_TABLE, KEY_TS_NO_OF_GIRDERS
         active_member_id = str(active_member_id or "").strip()
 
         if active_member_id:

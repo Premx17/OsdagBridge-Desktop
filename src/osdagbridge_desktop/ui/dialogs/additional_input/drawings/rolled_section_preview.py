@@ -64,7 +64,7 @@ class RolledSectionPreview(QWidget):
     # Called from additional_inputs._update_section_drawing via schema on_change /
     # on_editing_finished on all section input fields.
     def update_section(self, working_input_dict: dict) -> None:
-        from osdagbridge.core.utils.common import (
+        from osdagbridge_core.utils.common import (
             KEY_MP_GIRDER_TYPE, KEY_MP_GIRDER_IS_SECTION,
             KEY_MP_GIRDER_DEPTH, KEY_MP_GIRDER_TOP_FLANGE_WIDTH, KEY_MP_GIRDER_BOTTOM_FLANGE_WIDTH,
             KEY_MP_GIRDER_TOP_FLANGE_THICKNESS, KEY_MP_GIRDER_BOTTOM_FLANGE_THICKNESS,
@@ -96,7 +96,7 @@ class RolledSectionPreview(QWidget):
             self.update()
 
         else:
-            from osdagbridge.core.utils.common import GirderSectionCatalog
+            from osdagbridge_core.utils.common import GirderSectionCatalog
             girder_properties = GirderSectionCatalog()
             designation = str(working_input_dict.get(KEY_MP_GIRDER_IS_SECTION) or "")
             if not designation:

@@ -41,7 +41,7 @@ from PySide6.QtWidgets import QToolTip
 # reads to draw the geometry, resolved through the same <base>.<pair> scheme — which is
 # what stops the tooltip and the drawn shape disagreeing.  The designation, spacing and
 # steel grade keys are extra: the builder has no use for them, but the label does.
-from osdagbridge.core.utils.common import (
+from osdagbridge_core.utils.common import (
     KEY_GIRDER,
     KEY_CROSS_BRACING,
     KEY_END_DIAPHRAGM,
@@ -81,7 +81,7 @@ from osdagbridge.core.utils.common import (
     KEY_TD_CB_PROP_L, KEY_TD_CB_TOP_CHORD_PROP_L, KEY_TD_CB_BOTTOM_CHORD_PROP_L,
     KEY_TD_ED_PROP_L, KEY_TD_ED_TOP_CHORD_PROP_L, KEY_TD_ED_BOTTOM_CHORD_PROP_L,
 )
-from osdagbridge.core.bridge_components.super_structure.cross_bracing.builder import (
+from osdagbridge_core.bridge_components.super_structure.cross_bracing.builder import (
     ROLE_DIAGONAL, ROLE_TOP_CHORD, ROLE_BOTTOM_CHORD, ROLE_NAMES,
     COMPONENT_CROSS_BRACING,
 )
@@ -572,7 +572,7 @@ def _girder_label(output_dict, component, girder_index):
     does keeps the tooltip consistent with the drawn geometry whichever is right; if
     both are wrong that is a pre-existing bug in the DTO, not one introduced here.
     """
-    from osdagbridge.core.bridge_types.plate_girder.plategirderbridge import (
+    from osdagbridge_core.bridge_types.plate_girder.plategirderbridge import (
         resolve_girder_value,
     )
 

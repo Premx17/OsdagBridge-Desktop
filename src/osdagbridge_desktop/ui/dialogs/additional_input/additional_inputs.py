@@ -12,17 +12,17 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Signal, QTimer, QPoint, QEvent
 from PySide6.QtGui import QDoubleValidator
 
-from osdagbridge.core.bridge_types.plate_girder.validator import BridgeInputValidator
-from osdagbridge.core.utils.common import *
+from osdagbridge_core.bridge_types.plate_girder.validator import BridgeInputValidator
+from osdagbridge_core.utils.common import *
 from osdagbridge_desktop.ui.utils.custom_titlebar import CustomTitleBar
 from osdagbridge_desktop.ui.dialogs.tabs.common import apply_field_style, create_action_button_bar
 from osdagbridge_desktop.ui.dialogs.custom_messagebox import CustomMessageBox, MessageBoxType
 from osdagbridge_desktop.ui.utils.custom_widgets import SmartCursorComboBoxView
 from osdagbridge_desktop.ui.dialogs.additional_input.ui_builder.common_ui_builder import UIBuilder
-from osdagbridge.core.bridge_types.plate_girder.ui_fields_additional_input import ADDITIONAL_INPUTS_SCHEMA
+from osdagbridge_core.bridge_types.plate_girder.ui_fields_additional_input import ADDITIONAL_INPUTS_SCHEMA
 from osdagbridge_desktop.ui.dialogs.additional_input.ui_builder._load_combination_widget import LoadCombinationWidget
 from osdagbridge_desktop.ui.dialogs.additional_input.ui_builder.common_ui_builder import AdaptiveWidget
-from osdagbridge.core.bridge_types.plate_girder.defaults import extend_cb_dynamic_keys
+from osdagbridge_core.bridge_types.plate_girder.defaults import extend_cb_dynamic_keys
 # =================================================================================
 #   MAIN IMPLEMENTATION
 # =================================================================================
@@ -251,7 +251,7 @@ class AdditionalInputs(QDialog):
 
         if self.interacted_first:
             self.interacted_first = False
-            from osdagbridge.core.bridge_types.plate_girder.ui_fields_additional_input import END_CONNECTORS
+            from osdagbridge_core.bridge_types.plate_girder.ui_fields_additional_input import END_CONNECTORS
             UIBuilder.wire_end_connectors(END_CONNECTORS, ai=self)
 
     def set_defaults(self) -> None:  # lifecycle: populates all widgets from working_input_dict; called at init time only
@@ -404,7 +404,7 @@ class AdditionalInputs(QDialog):
             self._on_girder_segments_load(KEY_MP_GD_SELECT_GIRDER, seg_table)
 
         # End Diaphragm fields — disabled when Optimized----------------------
-        from osdagbridge.core.utils.common import (
+        from osdagbridge_core.utils.common import (
             KEY_MP_ED_BRACING_SECTION, KEY_MP_ED_BRACING_SECTION_DESIGNATION,
             KEY_MP_ED_TOP_CHORD_SECTION_TYPE, KEY_MP_ED_TOP_CHORD_SECTION_DESIG,
             KEY_MP_ED_BOTTOM_CHORD_SECTION_TYPE, KEY_MP_ED_BOTTOM_CHORD_SECTION_DESIG,
@@ -792,7 +792,7 @@ class AdditionalInputs(QDialog):
         footpath_str = str(d.get(KEY_FOOTPATH, "None")).strip()
         n_footpaths = 2 if "Both" in footpath_str else (0 if footpath_str in ("None", "") else 1)
 
-        from osdagbridge.core.bridge_types.plate_girder.initial_sizing import BridgeConfigurationSolver
+        from osdagbridge_core.bridge_types.plate_girder.initial_sizing import BridgeConfigurationSolver
         solver = BridgeConfigurationSolver(
             carriageway_width=_num(KEY_CARRIAGEWAY_WIDTH),
             crash_barrier_width=_num(KEY_CB_WIDTH, DEFAULT_CRASH_BARRIER_WIDTH),
@@ -888,7 +888,7 @@ class AdditionalInputs(QDialog):
         if text and not (scan.isdigit() or (scan.count(".") == 1 and scan.replace(".", "").isdigit())):
             return
         if self.update_girder_layout("girders"):
-            from osdagbridge.core.bridge_types.plate_girder.defaults import _on_no_of_girders_changed
+            from osdagbridge_core.bridge_types.plate_girder.defaults import _on_no_of_girders_changed
             _on_no_of_girders_changed(self.working_input_dict)
 
     # ── Crash Barrier Sub-Tab ─────────────────────────────────────────────────────────────
@@ -933,16 +933,16 @@ class AdditionalInputs(QDialog):
         self.update_girder_layout("spacing")
 
     def compute_crash_barrier_values(self, input_dict: dict) -> dict:
-        from osdagbridge.core.utils.codes.irc5_2015 import IRC5_2015
-        from osdagbridge.core.bridge_components.super_structure.crash_barrier.geometry import (
+        from osdagbridge_core.utils.codes.irc5_2015 import IRC5_2015
+        from osdagbridge_core.bridge_components.super_structure.crash_barrier.geometry import (
             rigid_barrier_no_footpath_area, rigid_barrier_with_railing_area, high_containment_barrier_area,
         )
-        from osdagbridge.core.bridge_components.super_structure.crash_barrier.properties import (
+        from osdagbridge_core.bridge_components.super_structure.crash_barrier.properties import (
             rigid_barrier_no_footpath_load, rcc_railing_load, steel_railing_load,
             high_containment_barrier_load, metallic_edge_barrier_load,
         )
 
-        from osdagbridge.core.utils.codes.keyfile import KEY_RAILING_TYPE as _RL_KEYS
+        from osdagbridge_core.utils.codes.keyfile import KEY_RAILING_TYPE as _RL_KEYS
         barrier_type = input_dict.get(KEY_CB_TYPE, "IRC 5 - RCC Crash Barrier")
         footpath     = input_dict.get(KEY_FOOTPATH, VALUES_FOOTPATH[0])
         railing_type = input_dict.get(KEY_RL_TYPE, "")
@@ -1038,11 +1038,11 @@ class AdditionalInputs(QDialog):
         self.update_girder_layout("spacing")
 
     def compute_median_values(self, input_dict: dict) -> dict:
-        from osdagbridge.core.utils.codes.irc5_2015 import IRC5_2015
-        from osdagbridge.core.bridge_components.super_structure.median.geometry import (
+        from osdagbridge_core.utils.codes.irc5_2015 import IRC5_2015
+        from osdagbridge_core.bridge_components.super_structure.median.geometry import (
             median_raised_kerb_area, median_rcc_crash_barrier_area,
         )
-        from osdagbridge.core.bridge_components.super_structure.median.properties import (
+        from osdagbridge_core.bridge_components.super_structure.median.properties import (
             median_raised_kerb_load, median_rcc_barrier_load, median_metallic_barrier_load,
         )
 
@@ -1102,12 +1102,12 @@ class AdditionalInputs(QDialog):
         self.update_girder_layout("spacing")
 
     def compute_railing_values(self, input_dict: dict) -> dict:
-        from osdagbridge.core.utils.codes.irc5_2015 import IRC5_2015
-        from osdagbridge.core.utils.codes.keyfile import KEY_CRASH_BARRIER_TYPE, KEY_FOOTPATH, KEY_RAILING_TYPE
-        from osdagbridge.core.bridge_components.super_structure.railing.properties import (
+        from osdagbridge_core.utils.codes.irc5_2015 import IRC5_2015
+        from osdagbridge_core.utils.codes.keyfile import KEY_CRASH_BARRIER_TYPE, KEY_FOOTPATH, KEY_RAILING_TYPE
+        from osdagbridge_core.bridge_components.super_structure.railing.properties import (
             rcc_railing_load, steel_railing_load, load_from_area, RCC_DENSITY,
         )
-        from osdagbridge.core.bridge_components.super_structure.railing.geometry import rigid_barrier_with_railing_area
+        from osdagbridge_core.bridge_components.super_structure.railing.geometry import rigid_barrier_with_railing_area
 
         railing_type = input_dict.get(KEY_RL_TYPE, VALUES_RAILING_TYPE[0])
         mode_combo   = self.findChild(QComboBox, KEY_RL_LOAD_MODE)
@@ -1182,8 +1182,8 @@ class AdditionalInputs(QDialog):
 
         if mode == "As per IRC 6":
             self._set_enabled(load_edit, False)
-            from osdagbridge.core.bridge_components.super_structure.railing.properties import load_from_area, RCC_DENSITY
-            from osdagbridge.core.bridge_components.super_structure.railing.geometry import rigid_barrier_with_railing_area
+            from osdagbridge_core.bridge_components.super_structure.railing.properties import load_from_area, RCC_DENSITY
+            from osdagbridge_core.bridge_components.super_structure.railing.geometry import rigid_barrier_with_railing_area
             area = rigid_barrier_with_railing_area("rcc")["barrier_area"]
             load = load_from_area(area, RCC_DENSITY)
             if load_edit: load_edit.setText(f"{load:.3f}")
@@ -1197,7 +1197,7 @@ class AdditionalInputs(QDialog):
         self._set_enabled(density_w, material == "Custom")
 
     def compute_wearing_course_values(self, input_dict: dict) -> dict:
-        from osdagbridge.core.bridge_components.super_structure.deck.geometry import (
+        from osdagbridge_core.bridge_components.super_structure.deck.geometry import (
             WET_CONCRETE_DENSITY_kN_m3, BITUMINOUS_DENSITY_kN_m3,
         )
         material = input_dict.get(KEY_WC_MATERIAL, "Concrete")
@@ -1370,7 +1370,7 @@ class AdditionalInputs(QDialog):
             cad.update_selected_girder(combo.currentIndex())
 
     def _on_segment_selected(self, row: int, member_id: str) -> None:  # on_change: highlights the clicked segment member on the CAD preview canvas
-        from osdagbridge.core.utils.common import KEY_MP_GD_CAD_PREVIEW
+        from osdagbridge_core.utils.common import KEY_MP_GD_CAD_PREVIEW
         cad = self.findChild(QWidget, KEY_MP_GD_CAD_PREVIEW)
         if cad and hasattr(cad, "update_selected_member"):
             cad.update_selected_member(member_id)
@@ -1407,7 +1407,7 @@ class AdditionalInputs(QDialog):
         idx_restore = target_widget.findText(current)
         target_widget.setCurrentIndex(idx_restore if idx_restore >= 0 else 0)
 
-        from osdagbridge.core.bridge_types.plate_girder.defaults import _extend_member_field_keys
+        from osdagbridge_core.bridge_types.plate_girder.defaults import _extend_member_field_keys
         _extend_member_field_keys(
             working_input_dict = self.working_input_dict,
             girder_id          = girder_id,
@@ -1680,7 +1680,7 @@ class AdditionalInputs(QDialog):
     def _on_torsional_restraint_changed(self, restraint: str) -> None:
         gi, mi = self._get_current_girder_member_indices()
         
-        from osdagbridge.core.utils.common import KEY_MP_GIRDER_WARPING_RESTRAINT
+        from osdagbridge_core.utils.common import KEY_MP_GIRDER_WARPING_RESTRAINT
         
         # If the restraint is one of the "Partially Restrained" options (the bottom two)
         if restraint.startswith("Partially Restrained"):
@@ -1698,7 +1698,7 @@ class AdditionalInputs(QDialog):
     def _on_warping_restraint_changed(self, warping: str) -> None:
         gi, mi = self._get_current_girder_member_indices()
         
-        from osdagbridge.core.utils.common import KEY_MP_GIRDER_TORSIONAL_RESTRAINT
+        from osdagbridge_core.utils.common import KEY_MP_GIRDER_TORSIONAL_RESTRAINT
         
         if warping.strip().lower() == "both flanges restrained":
             torsional_val = "Fully Restrained"
@@ -1713,7 +1713,7 @@ class AdditionalInputs(QDialog):
             self.working_input_dict[KEY_MP_GIRDER_TORSIONAL_RESTRAINT + suffix] = torsional_val
 
     def _update_section_drawing(self) -> None:  # compute: rebuilds the Girder Details section drawing preview from live widget values
-        from osdagbridge.core.utils.common import KEY_MP_GD_SECTION_PREVIEW
+        from osdagbridge_core.utils.common import KEY_MP_GD_SECTION_PREVIEW
         from osdagbridge_desktop.ui.dialogs.additional_input.drawings.rolled_section_preview import RolledSectionPreview
         widget = self.findChild(RolledSectionPreview, KEY_MP_GD_SECTION_PREVIEW)
         if widget is None:
@@ -1723,7 +1723,7 @@ class AdditionalInputs(QDialog):
         # because on_change fires before _on_field_edited updates the dict.
         snapshot = dict(self.working_input_dict)
 
-        from osdagbridge.core.utils.common import (
+        from osdagbridge_core.utils.common import (
             KEY_MP_GIRDER_TYPE, KEY_MP_GIRDER_IS_SECTION,
             KEY_MP_GIRDER_DEPTH, KEY_MP_GIRDER_TOP_FLANGE_WIDTH, KEY_MP_GIRDER_BOTTOM_FLANGE_WIDTH,
             KEY_MP_GIRDER_TOP_FLANGE_THICKNESS, KEY_MP_GIRDER_BOTTOM_FLANGE_THICKNESS,
@@ -1751,7 +1751,7 @@ class AdditionalInputs(QDialog):
         widget.update_section(snapshot)
 
     def _compute_rolled_section_properties(self, working_input_dict: dict) -> dict:  # compute: looks up rolled I-section properties from catalog by designation
-        from osdagbridge.core.utils.common import GirderSectionCatalog
+        from osdagbridge_core.utils.common import GirderSectionCatalog
 
         designation = working_input_dict.get(KEY_MP_GIRDER_IS_SECTION, "")
         if not designation:
@@ -1779,7 +1779,7 @@ class AdditionalInputs(QDialog):
         }
 
     def _compute_welded_section_properties(self, working_input_dict: dict) -> dict:  # compute: derives welded I-section properties from flange/web dimensions
-        from osdagbridge.core.bridge_types.plate_girder.initial_sizing import BridgeConfigurationSolver
+        from osdagbridge_core.bridge_types.plate_girder.initial_sizing import BridgeConfigurationSolver
 
         def _to_m(key: str) -> float:
             val = working_input_dict.get(key)
@@ -2200,7 +2200,7 @@ class AdditionalInputs(QDialog):
 
     def _load_ed_pair(self, pair_label: str) -> None:
         import re
-        from osdagbridge.core.utils.common import (
+        from osdagbridge_core.utils.common import (
             KEY_MP_ED_BRACING_SECTION,           KEY_MP_ED_BRACING_SECTION_DESIGNATION,
             KEY_MP_ED_TOP_CHORD_SECTION_TYPE,    KEY_MP_ED_TOP_CHORD_SECTION_DESIG,
             KEY_MP_ED_BOTTOM_CHORD_SECTION_TYPE, KEY_MP_ED_BOTTOM_CHORD_SECTION_DESIG,
@@ -2327,7 +2327,7 @@ class AdditionalInputs(QDialog):
         self._refresh_ed_section_properties()
 
     def _refresh_ed_section_properties(self) -> None:
-        from osdagbridge.core.utils.common import KEY_MP_ED_TYPE
+        from osdagbridge_core.utils.common import KEY_MP_ED_TYPE
         type_w  = self.findChild(QComboBox, KEY_MP_ED_TYPE)
         ed_type = type_w.currentText() if type_w else ""
         if ed_type == "Rolled Beam":
@@ -2395,7 +2395,7 @@ class AdditionalInputs(QDialog):
         self._refresh_ed_bracing_previews()
 
     def _refresh_ed_bracing_previews(self) -> None:
-        from osdagbridge.core.utils.common import (
+        from osdagbridge_core.utils.common import (
             KEY_MP_ED_BRACING_SECTION, KEY_MP_ED_BRACING_SECTION_DESIGNATION, KEY_MP_ED_BRACING_SECTION_PREVIEW,
             KEY_MP_ED_TOP_CHORD_SECTION_TYPE, KEY_MP_ED_TOP_CHORD_SECTION_DESIG, KEY_MP_ED_TOP_CHORD_PREVIEW,
             KEY_MP_ED_BOTTOM_CHORD_SECTION_TYPE, KEY_MP_ED_BOTTOM_CHORD_SECTION_DESIG, KEY_MP_ED_BOTTOM_CHORD_PREVIEW,
@@ -2428,23 +2428,23 @@ class AdditionalInputs(QDialog):
         widget.set_section(stype, designation, show_double_total)
 
     def _on_ed_bracing_preview_changed(self, designation: str) -> None:
-        from osdagbridge.core.utils.common import KEY_MP_ED_BRACING_SECTION, KEY_MP_ED_BRACING_SECTION_PREVIEW
+        from osdagbridge_core.utils.common import KEY_MP_ED_BRACING_SECTION, KEY_MP_ED_BRACING_SECTION_PREVIEW
         type_w = self.findChild(QComboBox, KEY_MP_ED_BRACING_SECTION)
         self._ed_update_preview(type_w.currentText() if type_w else "Angle", designation, KEY_MP_ED_BRACING_SECTION_PREVIEW)
 
     def _on_ed_top_chord_preview_changed(self, designation: str) -> None:
-        from osdagbridge.core.utils.common import KEY_MP_ED_TOP_CHORD_SECTION_TYPE, KEY_MP_ED_TOP_CHORD_PREVIEW
+        from osdagbridge_core.utils.common import KEY_MP_ED_TOP_CHORD_SECTION_TYPE, KEY_MP_ED_TOP_CHORD_PREVIEW
         type_w = self.findChild(QComboBox, KEY_MP_ED_TOP_CHORD_SECTION_TYPE)
         self._ed_update_preview(type_w.currentText() if type_w else "Angle", designation, KEY_MP_ED_TOP_CHORD_PREVIEW)
 
     def _on_ed_bottom_chord_preview_changed(self, designation: str) -> None:
-        from osdagbridge.core.utils.common import KEY_MP_ED_BOTTOM_CHORD_SECTION_TYPE, KEY_MP_ED_BOTTOM_CHORD_PREVIEW
+        from osdagbridge_core.utils.common import KEY_MP_ED_BOTTOM_CHORD_SECTION_TYPE, KEY_MP_ED_BOTTOM_CHORD_PREVIEW
         type_w = self.findChild(QComboBox, KEY_MP_ED_BOTTOM_CHORD_SECTION_TYPE)
         self._ed_update_preview(type_w.currentText() if type_w else "Angle", designation, KEY_MP_ED_BOTTOM_CHORD_PREVIEW)
 
     def _ed_repopulate_designation_combo(self, desig_w: QComboBox, type_label: str) -> None:
         """Repopulate a designation combo with angle or channel designations based on section type."""
-        from osdagbridge.core.utils.common import get_angle_designation_list, get_channel_section_list
+        from osdagbridge_core.utils.common import get_angle_designation_list, get_channel_section_list
         stype = self._ED_SECTION_TYPE_MAP.get(type_label, "angle")
         items = get_channel_section_list() if stype in ("channel", "double_channel") else get_angle_designation_list()
         prev = desig_w.blockSignals(True)
@@ -2457,21 +2457,21 @@ class AdditionalInputs(QDialog):
             desig_w.blockSignals(prev)
 
     def _on_ed_bracing_section_type_changed(self, type_label: str) -> None:
-        from osdagbridge.core.utils.common import KEY_MP_ED_BRACING_SECTION_DESIGNATION, KEY_MP_ED_BRACING_SECTION_PREVIEW
+        from osdagbridge_core.utils.common import KEY_MP_ED_BRACING_SECTION_DESIGNATION, KEY_MP_ED_BRACING_SECTION_PREVIEW
         desig_w = self.findChild(QComboBox, KEY_MP_ED_BRACING_SECTION_DESIGNATION)
         if desig_w is not None:
             self._ed_repopulate_designation_combo(desig_w, type_label)
         self._ed_update_preview(type_label, desig_w.currentText() if desig_w else "", KEY_MP_ED_BRACING_SECTION_PREVIEW)
 
     def _on_ed_top_chord_section_type_changed(self, type_label: str) -> None:
-        from osdagbridge.core.utils.common import KEY_MP_ED_TOP_CHORD_SECTION_DESIG, KEY_MP_ED_TOP_CHORD_PREVIEW
+        from osdagbridge_core.utils.common import KEY_MP_ED_TOP_CHORD_SECTION_DESIG, KEY_MP_ED_TOP_CHORD_PREVIEW
         desig_w = self.findChild(QComboBox, KEY_MP_ED_TOP_CHORD_SECTION_DESIG)
         if desig_w is not None:
             self._ed_repopulate_designation_combo(desig_w, type_label)
         self._ed_update_preview(type_label, desig_w.currentText() if desig_w else "", KEY_MP_ED_TOP_CHORD_PREVIEW)
 
     def _on_ed_bottom_chord_section_type_changed(self, type_label: str) -> None:
-        from osdagbridge.core.utils.common import KEY_MP_ED_BOTTOM_CHORD_SECTION_DESIG, KEY_MP_ED_BOTTOM_CHORD_PREVIEW
+        from osdagbridge_core.utils.common import KEY_MP_ED_BOTTOM_CHORD_SECTION_DESIG, KEY_MP_ED_BOTTOM_CHORD_PREVIEW
         desig_w = self.findChild(QComboBox, KEY_MP_ED_BOTTOM_CHORD_SECTION_DESIG)
         if desig_w is not None:
             self._ed_repopulate_designation_combo(desig_w, type_label)
@@ -2479,7 +2479,7 @@ class AdditionalInputs(QDialog):
 
     def _update_ed_section_drawing(self, *args) -> None:  # on_change/on_editing_finished: updates rolled or welded ED section CAD preview from live widget values
         from osdagbridge_desktop.ui.dialogs.additional_input.drawings.rolled_section_preview import RolledSectionPreview
-        from osdagbridge.core.utils.common import (
+        from osdagbridge_core.utils.common import (
             KEY_MP_ED_TYPE,
             KEY_MP_ED_IS_SECTION,
             KEY_MP_ED_TOTAL_DEPTH, KEY_MP_ED_WEB_THICKNESS,
@@ -2500,7 +2500,7 @@ class AdditionalInputs(QDialog):
             if not designation:
                 widget.clear()
                 return
-            from osdagbridge.core.utils.common import GirderSectionCatalog
+            from osdagbridge_core.utils.common import GirderSectionCatalog
             catalog = GirderSectionCatalog()
             beam    = catalog.get_beam_profile(str(designation).strip())
             if beam:
@@ -2562,7 +2562,7 @@ class AdditionalInputs(QDialog):
             widget.update()
 
     def _compute_ed_rolled_section_properties(self, working_input_dict: dict) -> dict:  # compute: looks up rolled I-section properties from catalog by designation
-        from osdagbridge.core.utils.common import (
+        from osdagbridge_core.utils.common import (
             GirderSectionCatalog, KEY_MP_ED_IS_SECTION,
             KEY_MP_ED_MASS, KEY_MP_ED_SECTIONAL_AREA,
             KEY_MP_ED_SECTIONAL_IZ, KEY_MP_ED_SECTIONAL_IY,
@@ -2590,8 +2590,8 @@ class AdditionalInputs(QDialog):
         }
 
     def _compute_ed_welded_section_properties(self, working_input_dict: dict) -> dict:  # compute: derives welded I-section properties for end diaphragm from flange/web dimensions
-        from osdagbridge.core.bridge_types.plate_girder.initial_sizing import BridgeConfigurationSolver
-        from osdagbridge.core.utils.common import (
+        from osdagbridge_core.bridge_types.plate_girder.initial_sizing import BridgeConfigurationSolver
+        from osdagbridge_core.utils.common import (
             KEY_SPAN, KEY_MP_ED_SYMMETRY,
             KEY_MP_ED_TOTAL_DEPTH, KEY_MP_ED_WEB_THICKNESS,
             KEY_MP_ED_TOP_FLANGE_WIDTH, KEY_MP_ED_TOP_FLANGE_THICKNESS,
@@ -2690,7 +2690,7 @@ class AdditionalInputs(QDialog):
             for gi in range(1, girder_count):
                 pair_key = f"{KEY_MP_CB_NO_OF_CROSS_BRACINGS}.G{gi}G{gi + 1}"
                 self.working_input_dict[pair_key] = count
-            from osdagbridge.core.bridge_types.plate_girder.defaults import extend_cb_dynamic_keys
+            from osdagbridge_core.bridge_types.plate_girder.defaults import extend_cb_dynamic_keys
             extend_cb_dynamic_keys(self.working_input_dict, girder_count, count)
 
     def _on_cb_girder_count_refreshed(self, origin_key: str, current_object: QComboBox) -> None:
@@ -2922,7 +2922,7 @@ class AdditionalInputs(QDialog):
                 self._cb_update_preview(type_w.currentText(), desig_w.currentText(), preview_key)
 
     def _cb_repopulate_designation(self, desig_w: QComboBox, type_label: str) -> None:
-        from osdagbridge.core.utils.common import get_angle_designation_list, get_channel_section_list
+        from osdagbridge_core.utils.common import get_angle_designation_list, get_channel_section_list
         stype = self._CB_SECTION_TYPE_MAP.get(type_label, "angle")
         items = get_channel_section_list() if stype in ("channel", "double_channel") else get_angle_designation_list()
         prev = desig_w.blockSignals(True)
@@ -3025,7 +3025,7 @@ class AdditionalInputs(QDialog):
                 widget.update(updated)
 
     def _compute_seismic_values(self, working_input_dict: dict) -> dict:  # compute: derives Ah, Av and spectral coefficients from IRC 6 seismic inputs
-        from osdagbridge.core.utils.codes.irc6_2017 import IRC6_2017
+        from osdagbridge_core.utils.codes.irc6_2017 import IRC6_2017
 
         zone     = working_input_dict.get(KEY_SL_SEISMIC_ZONE)
         soil_str = working_input_dict.get(KEY_SL_SOIL_TYPE, "")
@@ -3079,7 +3079,7 @@ class AdditionalInputs(QDialog):
         }
 
     def _compute_wind_values(self, working_input_dict: dict) -> dict:  # compute: derives hourly mean wind speed and pressure from IRC 6 wind inputs
-        from osdagbridge.core.utils.codes.irc6_2017 import IRC6_2017
+        from osdagbridge_core.utils.codes.irc6_2017 import IRC6_2017
 
         basic_wind_speed_str = working_input_dict.get(KEY_WL_BASIC_WIND_SPEED)
         height_str = working_input_dict.get(KEY_WL_AVG_EXPOSED_HEIGHT)
@@ -3109,7 +3109,7 @@ class AdditionalInputs(QDialog):
         }
 
     def _compute_temperature_values(self, working_input_dict: dict) -> dict:  # compute: derives effective bridge temperature range and rise/fall from IRC 6 thermal inputs
-        from osdagbridge.core.utils.codes.irc6_2017 import IRC6_2017
+        from osdagbridge_core.utils.codes.irc6_2017 import IRC6_2017
 
         max_str = working_input_dict.get(KEY_TL_HIGHEST_MAX_TEMP)
         min_str = working_input_dict.get(KEY_TL_LOWEST_MIN_TEMP)

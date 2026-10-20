@@ -8,7 +8,7 @@ import math
 from PySide6.QtWidgets import QWidget, QPushButton, QScrollArea
 from PySide6.QtCore import Qt, QRectF, QPointF, QTimer, QSize
 from PySide6.QtGui import QPainter, QPen, QColor, QFont, QBrush, QPolygonF, QIcon, QPixmap, QPainterPath
-from osdagbridge.core.utils.common import *
+from osdagbridge_core.utils.common import *
 from osdagbridge_desktop.cad.irc5_geometry import (
     CrashBarrierGeometry,
     RailingGeometry,

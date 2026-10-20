@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QRegularExpression, QSize, QTimer, QPoint, QEvent, Signal
 from PySide6.QtGui import QDoubleValidator, QRegularExpressionValidator, QIcon, QColor, QBrush
 
-from osdagbridge.core.utils.common import *
+from osdagbridge_core.utils.common import *
 from osdagbridge_desktop.ui.utils.custom_buttons import DockCustomButton
 from osdagbridge_desktop.ui.dialogs.project_location import ProjectLocationDialog
 from osdagbridge_desktop.ui.docks.dock_utils import apply_field_style
@@ -28,8 +28,8 @@ from osdagbridge_desktop.ui.dialogs.material_properties import (
     MaterialPropertiesDialog, sync_custom_materials_across_steel_members,
 )
 from osdagbridge_desktop.ui.dialogs.custom_messagebox import CustomMessageBox, MessageBoxType
-from osdagbridge.core.bridge_types.plate_girder.defaults import BASIC_INPUT_DICT
-from osdagbridge.core.bridge_types.plate_girder.validator import BridgeInputValidator
+from osdagbridge_core.bridge_types.plate_girder.defaults import BASIC_INPUT_DICT
+from osdagbridge_core.bridge_types.plate_girder.validator import BridgeInputValidator
 from osdagbridge_desktop.ui.utils.custom_cursors import pointing_hand_cursor
 
 

@@ -9,8 +9,8 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
     QTableWidget, QTableWidgetItem, QHeaderView, QCheckBox, QSizePolicy,
 )
-from osdagbridge.core.utils.codes.irc6_2017 import IRC6_2017
-from osdagbridge.core.utils.common import *
+from osdagbridge_core.utils.codes.irc6_2017 import IRC6_2017
+from osdagbridge_core.utils.common import *
 class LoadCombinationWidget(QWidget):
     """
     Self-contained widget — table + Add/Modify/Delete buttons.

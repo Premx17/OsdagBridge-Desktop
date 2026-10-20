@@ -17,8 +17,8 @@ import numpy as np
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 
-from osdagbridge.core.bridge_types.plate_girder.graph_engine import GirderGraphEngine
-from osdagbridge.core.utils.common import DESIGN_CHECK_ORDER
+from osdagbridge_core.bridge_types.plate_girder.graph_engine import GirderGraphEngine
+from osdagbridge_core.utils.common import DESIGN_CHECK_ORDER
 
 # Prefix used to identify non-selectable category header items in combo boxes.
 _COMBO_HEADER_PREFIX = "──"

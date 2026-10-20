@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QDoubleValidator, QIntValidator
 
-from osdagbridge.core.utils.common import *
+from osdagbridge_core.utils.common import *
 
 ADDITIONAL_INPUTS_SCROLL_STYLE = """
     QScrollArea { background:transparent; padding:0px 5px; border:none}
@@ -1532,7 +1532,7 @@ class UIBuilder(QWidget):
         Schema:
             id   : str
         """
-        from osdagbridge.core.utils.common import SAIL_APPROVED_THICKNESS_VALUES
+        from osdagbridge_core.utils.common import SAIL_APPROVED_THICKNESS_VALUES
 
         field_id = field_def.get("id", "")
 

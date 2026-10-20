@@ -24,10 +24,10 @@ from osdagbridge_desktop.ui.dialogs.additional_input.drawings.rolled_section_pre
 from osdagbridge_desktop.ui.dialogs.additional_input.drawings.stiffener_cad_preview import (
     StiffenerCadPreviewWidget,
 )
-from osdagbridge.core.bridge_types.plate_girder.ui_fields_additional_input import (
+from osdagbridge_core.bridge_types.plate_girder.ui_fields_additional_input import (
     STEEL_DESIGN_DETAILS_SCHEMA,
 )
-from osdagbridge.core.utils.common import (
+from osdagbridge_core.utils.common import (
     KEY_SD_GRADE_OF_MATERIAL,
     KEY_SD_SECTION_TYPE,
     KEY_SD_SECTION_DESIGNATION,

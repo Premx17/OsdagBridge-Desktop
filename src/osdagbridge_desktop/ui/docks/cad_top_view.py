@@ -3,7 +3,7 @@ Top View CAD Widget for OsdagBridge
 Handles top/plan view rendering of bridge structures
 Author: Arushi
 """
-from osdagbridge.core.utils.common import *
+from osdagbridge_core.utils.common import *
 import math
 from PySide6.QtWidgets import QWidget, QPushButton, QScrollArea
 from PySide6.QtCore import Qt, QRectF, QPointF, QTimer, QSize

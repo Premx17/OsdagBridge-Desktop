@@ -7,13 +7,13 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPainter, QPen
 from PySide6.QtWidgets import QSizePolicy, QWidget
 
-from osdagbridge.core.utils.common import (
+from osdagbridge_core.utils.common import (
     MIN_BEARING_STIFFENER_SPACING_MM,
     KEY_SD_SHEAR_DIAMETER, KEY_SD_SHEAR_HEIGHT, KEY_SD_SHEAR_LONGITUDINAL_SPACING,
     KEY_DS_STUD_DIAMETER, KEY_DS_STUD_HEIGHT
 )
 
-from osdagbridge.core.bridge_components.super_structure.shear_studs.geometry import (
+from osdagbridge_core.bridge_components.super_structure.shear_studs.geometry import (
     min_stud_head_diameter, min_stud_head_height
 )
 

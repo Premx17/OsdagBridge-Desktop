@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QSplitter, QScrollArea, QHBo
 from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve
 from .cad_cross_section import CrossSectionCADWidget
 from .cad_top_view import TopViewCADWidget
-from osdagbridge.core.utils.common import *
+from osdagbridge_core.utils.common import *
 from osdagbridge_desktop.cad.irc5_geometry import (
     CrashBarrierGeometry,
     MedianGeometry,

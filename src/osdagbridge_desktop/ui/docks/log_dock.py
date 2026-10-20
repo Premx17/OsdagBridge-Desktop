@@ -6,7 +6,7 @@ Displays log messages and status updates.
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTextEdit, QLabel
 from PySide6.QtCore import Qt, QDateTime, Signal
 
-from osdagbridge.core.utils.logger import bridge_logger
+from osdagbridge_core.utils.logger import bridge_logger
 
 
 class LogDock(QWidget):

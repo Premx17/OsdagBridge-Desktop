@@ -32,7 +32,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QIcon
 
-from osdagbridge.core.utils.common import (
+from osdagbridge_core.utils.common import (
     TYPE_TITLE, TYPE_BUTTON, TYPE_COMBOBOX, TYPE_PERCENT_BAR, TYPE_RADIO_GRID,
     TYPE_CHECKBOX, TYPE_CHECKBOX_ROW, TYPE_CHECKBOX_GRID, TYPE_ONLY_BUTTON,
     KEY_UTIL_FLEXURE, KEY_UTIL_SHEAR, KEY_UTIL_INTERACTION, KEY_UTIL_LTB,
@@ -751,7 +751,7 @@ class OutputDock(QWidget):
             try:
                 plots_widget = getattr(main_window, 'plots_widget', None)
                 if plots_widget is not None and getattr(plots_widget, '_ds_all', None) is not None:
-                    from osdagbridge.core.bridge_types.plate_girder.plot_generator import (
+                    from osdagbridge_core.bridge_types.plate_girder.plot_generator import (
                         capture_report_figures,
                     )
                     figure_data.update(capture_report_figures(
@@ -863,7 +863,7 @@ class OutputDock(QWidget):
             combo_design.blockSignals(False)
 
         # 2. Update Analysis Member dropdown
-        from osdagbridge.core.utils.common import KEY_ANALYSIS_MEMBER
+        from osdagbridge_core.utils.common import KEY_ANALYSIS_MEMBER
         combo_analysis = self._w(KEY_ANALYSIS_MEMBER)
         if combo_analysis is not None:
             combo_analysis.blockSignals(True)
