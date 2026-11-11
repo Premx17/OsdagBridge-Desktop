@@ -684,6 +684,15 @@ class SteelDesignCheckTab(QWidget):
                         entry["is_high_shear"] = bool(m) and float(m.group(1)) > 0
                 if key == KEY_CHECK_DEFLECTION:
                     entry["check_id"] = worst.check_id
+                if key == KEY_CHECK_SHEAR_LONG_TRANS:
+                    # Checks 6/7 are in mm; show V_L and n*Qu/s (= V_L*SL1/s) in N/mm.
+                    vl = getattr(capacity, "VL_N_per_mm", 0.0)
+                    sl1 = getattr(capacity, "stud_spacing_mm", 0.0)
+                    s   = getattr(capacity, "stud_spacing_provided_mm", 0.0)
+                    if vl > 0 and sl1 > 0 and s > 0:
+                        entry["demand"]   = vl
+                        entry["capacity"] = vl * sl1 / s
+                        entry["ratio"]    = s / sl1
                 results_by_key[key] = entry
             except Exception:
                 logger.exception("Failed to load checks %s for key %s", ids, key)
