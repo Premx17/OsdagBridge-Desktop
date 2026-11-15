@@ -691,12 +691,12 @@ class SteelDesignCheckTab(QWidget):
                 if key == KEY_CHECK_DEFLECTION:
                     entry["check_id"] = worst.check_id
                 if key == KEY_CHECK_SHEAR_LONG_TRANS:
-                    # n*Qu = V_L*SL1, so capacity = n*Qu/s and ratio = s/SL1.
-                    vl  = getattr(capacity, "VL_N_per_mm", 0.0)
+                    # Strength: provided spacing must not exceed SL1, the stored strength capacity.
                     sl1 = getattr(capacity, "stud_spacing_mm", 0.0)
                     s   = getattr(capacity, "stud_spacing_provided_mm", 0.0)
-                    if vl > 0 and sl1 > 0 and s > 0:
-                        entry.update(demand=vl, capacity=vl * sl1 / s, ratio=s / sl1, strength=True,
+                    if sl1 > 0 and s > 0:
+                        entry.update(demand=s, capacity=sl1, ratio=s / sl1, unit="mm", strength=True,
+                                     vl=getattr(capacity, "VL_N_per_mm", 0.0),
                                      passed=entry["passed"] and s <= sl1)
                     else:
                         entry["unit"] = worst.demand_unit
@@ -824,13 +824,15 @@ class SteelDesignCheckTab(QWidget):
             if key == KEY_CHECK_DEFLECTION:
                 cap_pfx = f"<i>L / {_DEFL_X.get(res.get('check_id'), 'x')}</i>"
 
-            if key == KEY_CHECK_SHEAR_LONG_TRANS and not res.get("strength"):
-                dem_pfx, cap_pfx = "Demand", "Capacity"
+            if key == KEY_CHECK_SHEAR_LONG_TRANS:
+                dem_pfx, cap_pfx = ("<i>s</i>", "<i>S<sub>L1</sub></i>") if res.get("strength") else ("<i>s<sub>min</sub></i>", "<i>s</i>")
 
             val_text = (
                 f"{dem_pfx} = {demand:.2f}{unit_str}<br>"
                 f"{cap_pfx} = {capacity:.2f}{unit_str}"
             )
+            if res.get("strength"):
+                val_text += f"<br><i>V<sub>L</sub></i> = {res['vl']:.2f} N/mm"
         
         dcr_color = "#388E3C" if passed else "#D32F2F"
         val_lbl = self.check_val_labels[key]
