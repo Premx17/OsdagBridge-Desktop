@@ -694,12 +694,17 @@ class SteelDesignCheckTab(QWidget):
                     # Strength: provided spacing must not exceed SL1, the stored strength capacity.
                     sl1 = getattr(capacity, "stud_spacing_mm", 0.0)
                     s   = getattr(capacity, "stud_spacing_provided_mm", 0.0)
-                    if sl1 > 0 and s > 0:
+                    if sl1 > 0 and s > 0 and worst.status != "FAIL":
                         entry.update(demand=s, capacity=sl1, ratio=s / sl1, unit="mm", strength=True,
                                      vl=getattr(capacity, "VL_N_per_mm", 0.0),
                                      passed=entry["passed"] and s <= sl1)
                     else:
                         entry["unit"] = worst.demand_unit
+                        if worst.status == "FAIL" and worst.demand_unit == "–":
+                            # A failing detailing check has no mm values, so name the detail that failed.
+                            det = (getattr(capacity, "details", None) or {}).get("stud_detailing") or {}
+                            failed = [k[:-6].replace("_", " ") for k, v in det.items() if k.endswith("_check") and v is False]
+                            entry["fail_text"] = f"{worst.name}<br>Failed: {', '.join(failed) or worst.note}"
                 results_by_key[key] = entry
             except Exception:
                 logger.exception("Failed to load checks %s for key %s", ids, key)
@@ -833,6 +838,8 @@ class SteelDesignCheckTab(QWidget):
             )
             if res.get("strength"):
                 val_text += f"<br><i>V<sub>L</sub></i> = {res['vl']:.2f} N/mm"
+            if res.get("fail_text"):
+                val_text = res["fail_text"]
         
         dcr_color = "#388E3C" if passed else "#D32F2F"
         val_lbl = self.check_val_labels[key]
