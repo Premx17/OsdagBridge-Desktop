@@ -53,14 +53,10 @@ _FONTSIZE_FRAC   = 66
 _DEFL_X     = {13: 800,           14: 600,            18: 600}
 _DEFL_LABEL = {13: r"live\ load", 14: r"total\ load", 18: r"dead\ load"}
 
-# Longitudinal shear card: the stud-spacing check (by name) -> (demand, capacity) symbols.
-_STUD_SYMBOLS = (
-    ("(SL1)",       "<i>s</i>",                "<i>S<sub>L1</sub></i>"),
-    ("(SL2)",       "<i>s</i>",                "<i>S<sub>L2</sub></i>"),
-    ("(SR)",        "<i>s</i>",                "<i>S<sub>R</sub></i>"),
-    ("≤ Max",       "<i>s</i>",                "<i>s<sub>max</sub></i>"),
-    ("≥ Min",       "<i>s<sub>min</sub></i>",  "<i>s</i>"),
-    ("Feasibility", "<i>s<sub>min</sub></i>",  "<i>s</i>"),
+# Longitudinal shear card when a stud-spacing check controls (IRC 22:2015 Cl.606.4, 606.9).
+_EQ_STUD_SPACING = (
+    (r"$s_{min} \leq s \leq \min\left(S_{L1},\,S_{L2},\,S_R,\,s_{max}\right)$", 330, False),
+    (r"$\mathrm{(IRC\ 22:2015\ Cl.606.4,\ Cl.606.9)}$", 230, False),
 )
 
 
@@ -94,8 +90,9 @@ _EQ_LATEX: dict[str, tuple[tuple[str, int, bool], ...]] = {
         (r"$M_{cr}=\sqrt{\left(\frac{\pi^{2}EI_y}{L_{LT}^{2}}\right)\left(GI_t+\frac{\pi^{2}EI_w}{L_{LT}^{2}}\right)}$", 280, True),
     ),
     KEY_CHECK_SHEAR_LONG_TRANS: (
-        (r"$s_{min} \leq s \leq \min\left(S_{L1},\,S_{L2},\,S_R,\,s_{max}\right)$", 330, False),
-        (r"$\mathrm{(IRC\ 22:2015\ Cl.606.4,\ Cl.606.9)}$", 230, False),
+        (r"$V_L \leq n \cdot Q_u / s$", 100, False),
+        (r"$V_L = V_u \cdot A_{ec} \cdot Y / I_c$", 140, False),
+        (r"$Q_u=\min\left(\frac{0.8\,f_u\,A}{\gamma_v},\;\frac{0.29\,\alpha\,d^{2}\sqrt{f_{ck}E_{cm}}}{\gamma_v}\right)$", 400, True),
     ),
     KEY_CHECK_FATIGUE: (
         (r"$\Delta\sigma \leq \Delta\sigma_{allowable}$",            160, False),
@@ -694,9 +691,15 @@ class SteelDesignCheckTab(QWidget):
                 if key == KEY_CHECK_DEFLECTION:
                     entry["check_id"] = worst.check_id
                 if key == KEY_CHECK_SHEAR_LONG_TRANS:
-                    # Checks 6/7 are stud-spacing checks, so show the controlling one with its own unit.
-                    entry["check_name"] = worst.name
-                    entry["unit"] = worst.demand_unit
+                    # n*Qu = V_L*SL1, so capacity = n*Qu/s and ratio = s/SL1.
+                    vl  = getattr(capacity, "VL_N_per_mm", 0.0)
+                    sl1 = getattr(capacity, "stud_spacing_mm", 0.0)
+                    s   = getattr(capacity, "stud_spacing_provided_mm", 0.0)
+                    if vl > 0 and sl1 > 0 and s > 0:
+                        entry.update(demand=vl, capacity=vl * sl1 / s, ratio=s / sl1, strength=True,
+                                     passed=entry["passed"] and s <= sl1)
+                    else:
+                        entry["unit"] = worst.demand_unit
                 results_by_key[key] = entry
             except Exception:
                 logger.exception("Failed to load checks %s for key %s", ids, key)
@@ -731,6 +734,10 @@ class SteelDesignCheckTab(QWidget):
             eq_view = self.check_eq_views.get(key)
             if eq_view is not None:
                 eq_view.set_lines(_deflection_eq_lines(res.get("check_id")))
+        if key == KEY_CHECK_SHEAR_LONG_TRANS:
+            eq_view = self.check_eq_views.get(key)
+            if eq_view is not None:
+                eq_view.set_lines(_EQ_LATEX[key] if res.get("strength") else _EQ_STUD_SPACING)
         if key == KEY_CHECK_SHEAR:
     
             governing_method = res.get("governing_method")
@@ -817,12 +824,8 @@ class SteelDesignCheckTab(QWidget):
             if key == KEY_CHECK_DEFLECTION:
                 cap_pfx = f"<i>L / {_DEFL_X.get(res.get('check_id'), 'x')}</i>"
 
-            if key == KEY_CHECK_SHEAR_LONG_TRANS:
-                name = res.get("check_name", "")
-                dem_pfx, cap_pfx = next(
-                    ((d, c) for fragment, d, c in _STUD_SYMBOLS if fragment in name),
-                    ("Demand", "Capacity"),
-                )
+            if key == KEY_CHECK_SHEAR_LONG_TRANS and not res.get("strength"):
+                dem_pfx, cap_pfx = "Demand", "Capacity"
 
             val_text = (
                 f"{dem_pfx} = {demand:.2f}{unit_str}<br>"
