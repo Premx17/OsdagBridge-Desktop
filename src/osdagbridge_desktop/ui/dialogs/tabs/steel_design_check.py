@@ -53,6 +53,16 @@ _FONTSIZE_FRAC   = 66
 _DEFL_X     = {13: 800,           14: 600,            18: 600}
 _DEFL_LABEL = {13: r"live\ load", 14: r"total\ load", 18: r"dead\ load"}
 
+# Longitudinal shear card: the stud-spacing check (by name) -> (demand, capacity) symbols.
+_STUD_SYMBOLS = (
+    ("(SL1)",       "<i>s</i>",                "<i>S<sub>L1</sub></i>"),
+    ("(SL2)",       "<i>s</i>",                "<i>S<sub>L2</sub></i>"),
+    ("(SR)",        "<i>s</i>",                "<i>S<sub>R</sub></i>"),
+    ("≤ Max",       "<i>s</i>",                "<i>s<sub>max</sub></i>"),
+    ("≥ Min",       "<i>s<sub>min</sub></i>",  "<i>s</i>"),
+    ("Feasibility", "<i>s<sub>min</sub></i>",  "<i>s</i>"),
+)
+
 
 def _deflection_eq_lines(check_id: int | None = None) -> tuple[tuple[str, int, bool], ...]:
     """Deflection equations with x resolved for the governing check (or a neutral placeholder)."""
@@ -84,9 +94,8 @@ _EQ_LATEX: dict[str, tuple[tuple[str, int, bool], ...]] = {
         (r"$M_{cr}=\sqrt{\left(\frac{\pi^{2}EI_y}{L_{LT}^{2}}\right)\left(GI_t+\frac{\pi^{2}EI_w}{L_{LT}^{2}}\right)}$", 280, True),
     ),
     KEY_CHECK_SHEAR_LONG_TRANS: (
-        (r"$V_L \leq n \cdot Q_u / s$", 100, False),
-        (r"$V_L = V_u \cdot A_{ec} \cdot Y / I_c$", 140, False),
-        (r"$Q_u=\min\left(\frac{0.8\,f_u\,A}{\gamma_v},\;\frac{0.29\,\alpha\,d^{2}\sqrt{f_{ck}E_{cm}}}{\gamma_v}\right)$", 400, True),
+        (r"$s_{min} \leq s \leq \min\left(S_{L1},\,S_{L2},\,S_R,\,s_{max}\right)$", 330, False),
+        (r"$\mathrm{(IRC\ 22:2015\ Cl.606.4,\ Cl.606.9)}$", 230, False),
     ),
     KEY_CHECK_FATIGUE: (
         (r"$\Delta\sigma \leq \Delta\sigma_{allowable}$",            160, False),
@@ -685,14 +694,9 @@ class SteelDesignCheckTab(QWidget):
                 if key == KEY_CHECK_DEFLECTION:
                     entry["check_id"] = worst.check_id
                 if key == KEY_CHECK_SHEAR_LONG_TRANS:
-                    # Checks 6/7 are in mm; show V_L and n*Qu/s (= V_L*SL1/s) in N/mm.
-                    vl = getattr(capacity, "VL_N_per_mm", 0.0)
-                    sl1 = getattr(capacity, "stud_spacing_mm", 0.0)
-                    s   = getattr(capacity, "stud_spacing_provided_mm", 0.0)
-                    if vl > 0 and sl1 > 0 and s > 0:
-                        entry["demand"]   = vl
-                        entry["capacity"] = vl * sl1 / s
-                        entry["ratio"]    = s / sl1
+                    # Checks 6/7 are stud-spacing checks, so show the controlling one with its own unit.
+                    entry["check_name"] = worst.name
+                    entry["unit"] = worst.demand_unit
                 results_by_key[key] = entry
             except Exception:
                 logger.exception("Failed to load checks %s for key %s", ids, key)
@@ -716,7 +720,8 @@ class SteelDesignCheckTab(QWidget):
         capacity = res.get("capacity", 0.0)
         ratio    = res.get("ratio",    0.0)
         passed   = res.get("passed",   False)
-        unit_str = f" {DESIGN_CHECK_UNITS[key]}" if DESIGN_CHECK_UNITS.get(key) else ""
+        unit = res.get("unit", DESIGN_CHECK_UNITS.get(key))
+        unit_str = f" {unit}" if unit and unit != "–" else ""
         
         if key == KEY_CHECK_FLEXURE:
             eq_view = self.check_eq_views.get(key)
@@ -811,6 +816,13 @@ class SteelDesignCheckTab(QWidget):
 
             if key == KEY_CHECK_DEFLECTION:
                 cap_pfx = f"<i>L / {_DEFL_X.get(res.get('check_id'), 'x')}</i>"
+
+            if key == KEY_CHECK_SHEAR_LONG_TRANS:
+                name = res.get("check_name", "")
+                dem_pfx, cap_pfx = next(
+                    ((d, c) for fragment, d, c in _STUD_SYMBOLS if fragment in name),
+                    ("Demand", "Capacity"),
+                )
 
             val_text = (
                 f"{dem_pfx} = {demand:.2f}{unit_str}<br>"
